@@ -13,12 +13,17 @@ mount --onlyonce -m PARTLABEL="${my_hostname}Esp" /mnt/boot
 
 pacstrap -K /mnt \
 	base linux linux-firmware \
+	xfsprogs exfatprogs fuse2 fuse3 \
    	cryptsetup lvm2 \
 	iwd impala \
-	xfsprogs exfatprogs fuse2 fuse3 \
 	mesa \
-	neovim git less openssh 7zip bottom inetutils fd fzf \
+	neovim git less openssh 7zip bottom inetutils fd fzf which keyd \
+	pam stow \
 	doas texinfo pkgconf patch make guile gc libtool groff flex fakeroot debugedit xxhash bison automake autoconf m4 # This is base-devel without sudo
+
+mkdir -p /mnt/home/user/code
+cp -r /root/arch-config /mnt/home/user/code
+arch-chroot /mnt cd /home/user/code/arch-config/live-iso/config-files && ./deploy.sh
 
 mkswap -U clear --size 4G --file /mnt/swapfile
 swapon /mnt/swapfile
@@ -28,33 +33,23 @@ genfstab /mnt > /mnt/etc/fstab
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 arch-chroot /mnt hwclock --systohc
 
-echo "en_US.UTF-8 UTF-8" >> /mnt/etc/locale.gen
 arch-chroot /mnt locale-gen
-echo "LANG=en_US.UTF-8" > /mnt/etc/locale.conf
 
 echo "$my_hostname" > /mnt/etc/hostname
 
-echo "KEYMAP=us" > /mnt/etc/vconsole.conf
-
-sed -i 's/HOOKS=.*/HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block sd-encrypt lvm2 filesystems fsck)/' /mnt/etc/mkinitcpio.conf
 arch-chroot /mnt mkinitcpio -P
 
 ln -sf /mnt/usr/bin/doas /mnt/usr/bin/sudo
-echo "permit persist keepenv :wheel as root" > /mnt/etc/doas.conf
 
 arch-chroot /mnt passwd
-arch-chroot /mnt useradd --groups wheel --create-home -U user
+arch-chroot /mnt useradd --groups wheel -U user
 arch-chroot /mnt passwd user
 
-arch-chroot /mnt systemctl enable systemd-networkd systemd-resolved iwd
-mkdir -p /mnt/etc/iwd
-printf "[Network]\nNameResolvingService=systemd\n[General]\nEnableNetworkConfiguration=true\n" > /mnt/etc/iwd/main.conf
+arch-chroot /mnt systemctl enable systemd-networkd systemd-resolved iwd keyd
+arch-chroot /mnt ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
 arch-chroot /mnt ln -sf /usr/lib/systemd/network/89-ethernet.network.example /usr/lib/systemd/network/89-ethernet.network
-arch-chroot /mnt ln -sf /usr/lib/systemd/network/80-wifi-adhoc.network /usr/lib/systemd/network/
 
 luks_uuid="$(blkid -o value -s UUID -t PARTLABEL="${my_hostname}Luks")"
 mkdir -p /mnt/boot/loader/entries
 printf "title Arch Linux\nlinux /vmlinuz-linux\ninitrd /initramfs-linux.img\noptions rd.luks.name=%s=%s_system root=/dev/%s_system/root rw quiet" "$luks_uuid" "$my_hostname" "$my_hostname" > /mnt/boot/loader/entries/arch.conf
 arch-chroot /mnt bootctl install
-
-

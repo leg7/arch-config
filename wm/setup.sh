@@ -11,7 +11,7 @@ if ! which yay; then
 	git clone https://aur.archlinux.org/yay.git
 	cd yay || exit
 	if git pull; then
-		makepkg --needed si
+		makepkg --needed -si
 	fi
 	rm -r yay
 fi
