@@ -7,8 +7,6 @@ print_separator() {
 print_separator "Enable crucial services"
 
 # Automate systemd boot update
-systemctl enable --now systemd-networkd
-systemctl enable --now systemd-resolved
 
 print_separator "Install base-devel without sudo "
 doas pacman -Sq --needed texinfo pkgconf patch make guile gc libtool groff flex fakeroot debugedit xxhash bison automake autoconf m4

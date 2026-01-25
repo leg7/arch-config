@@ -11,7 +11,7 @@ mount --onlyonce -m -L "${my_hostname}R" /mnt
 mount --onlyonce -m -L "${my_hostname}H" /mnt/home
 mount --onlyonce -m PARTLABEL="${my_hostname}Esp" /mnt/boot
 
-pacstrap -K /mnt base linux linux-firmware xfsprogs cryptsetup lvm2
+pacstrap -K /mnt base linux linux-firmware xfsprogs cryptsetup lvm2 iwd impala
 
 mkswap -U clear --size 4G --file /mnt/swapfile
 swapon /mnt/swapfile
@@ -31,9 +31,20 @@ echo "KEYMAP=us" > /mnt/etc/vconsole.conf
 
 sed -i 's/HOOKS=.*/HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block sd-encrypt lvm2 filesystems fsck)/' /mnt/etc/mkinitcpio.conf
 arch-chroot /mnt mkinitcpio -P
+
 arch-chroot /mnt passwd
+arch-chroot /mnt useradd --groups wheel --create-home -U user
+arch-chroot /mnt passwd user
+
+arch-chroot /mnt systemctl enable systemd-networkd systemd-resolved iwd
+mkdir -p /mnt/etc/iwd
+printf "[Network]\nNameResolvingService=systemd\n[General]\nEnableNetworkConfiguration=true\n" > /mnt/etc/iwd/main.conf
+arch-chroot /mnt ln -sf /usr/lib/systemd/network/89-ethernet.network.example /usr/lib/systemd/network/89-ethernet.network
+arch-chroot /mnt ln -sf /usr/lib/systemd/network/80-wifi-adhoc.network /usr/lib/systemd/network/
 
 luks_uuid="$(blkid -o value -s UUID -t PARTLABEL="${my_hostname}Luks")"
 mkdir -p /mnt/boot/loader/entries
-printf "title Arch Linux\nlinux /vmlinuz-linux\ninitrd /initramfs-linux.img\noptions rd.luks.name=%s=dan_system root=/dev/dan_system/root rw quiet" "$luks_uuid" > /mnt/boot/loader/entries/arch.conf
+printf "title Arch Linux\nlinux /vmlinuz-linux\ninitrd /initramfs-linux.img\noptions rd.luks.name=%s=%s_system root=/dev/%s_system/root rw quiet" "$luks_uuid" "$my_hostname" "$my_hostname" > /mnt/boot/loader/entries/arch.conf
 arch-chroot /mnt bootctl install
+
+
