@@ -1,0 +1,5 @@
+#!/bin/sh
+pkill -x yambar
+
+setsid -f yambar -d none -c "$XDG_CONFIG_HOME"/yambar/config-"$(hostname)".yml &
+

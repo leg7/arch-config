@@ -1,0 +1,29 @@
+profile docked {
+	output eDP-1 disable
+	output "Samsung Electric Company S34J55x HTRK901623" {
+		enable
+		mode 3440x1440@60
+	}
+	exec yambar-reload
+	exec antenna -d wlan
+	exec idle --docked
+}
+
+profile docked-stat {
+	output eDP-1 disable
+	output "Philips Consumer Electronics Company PHL 242V8 0x0000086C" {
+		enable
+		mode 1920x1080@74.973000
+	}
+	output "Dell Inc. DELL UZ2315H 0J4PM66MACGS" {
+		enable
+	}
+	exec idle --docked
+}
+
+profile nomad {
+	output eDP-1 enable
+	exec yambar-reload
+	exec antenna -c wlan
+	exec idle
+}

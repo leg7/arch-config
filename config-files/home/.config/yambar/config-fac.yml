@@ -1,0 +1,210 @@
+background: &background "ffffffff"
+foreground: &foreground "000000ff"
+foreground_dim: &foreground_dim "4e4e4e95"
+color_attention: &color_attention "c9007aff"
+color_focused: &color_focused "ffec00ff"
+color_charging: &color_charging "152eafff"
+
+dmargin: &dmargin 16
+margin: &margin 8
+margin-side: &margin-side 4
+
+bar:
+  height: 26
+  location: top
+  background: *background
+  foreground: *foreground
+  font: monospace:pixelsize=16
+  spacing: *margin
+  margin: *margin
+  trackpad-sensitivity: 40
+
+  left:
+    - battery:
+        name: BAT0
+        content:
+          map:
+            default:
+              ramp:
+                tag: capacity
+                items:
+                  - string: {text: "󰂎 {capacity}%"}
+                  - string: {text: "󰁺 {capacity}%"}
+                  - string: {text: "󰁼 {capacity}%"}
+                  - string: {text: "󰁽 {capacity}%"}
+                  - string: {text: "󰁾 {capacity}%"}
+                  - string: {text: "󰁿 {capacity}%"}
+                  - string: {text: "󰂀 {capacity}%"}
+                  - string: {text: "󰂁 {capacity}%"}
+                  - string: {text: "󰂂 {capacity}%"}
+                  - string: {text: "󰁹 {capacity}%"}
+
+            conditions:
+              state == "charging":
+                ramp:
+                  foreground: *color_charging
+                  tag: capacity
+                  items:
+                    - string: {text: "󰢜 {capacity}%"}
+                    - string: {text: "󰂆 {capacity}%"}
+                    - string: {text: "󰂇 {capacity}%"}
+                    - string: {text: "󰂈 {capacity}%"}
+                    - string: {text: "󰢝 {capacity}%"}
+                    - string: {text: "󰂉 {capacity}%"}
+                    - string: {text: "󰢞 {capacity}%"}
+                    - string: {text: "󰂊 {capacity}%"}
+                    - string: {text: "󰂋 {capacity}%"}
+                    - string: {text: "󰂅 {capacity}%"}
+
+    - backlight:
+        name: intel_backlight
+        content:
+          string:
+            text: "󰛨 {percent}%"
+            on-click:
+              wheel-up: "brightnessctl s 2%+"
+              wheel-down: "brightnessctl s 2%-"
+
+    - pipewire:
+        content:
+          map:
+            on-click:
+              wheel-up: pamixer -i 2
+              wheel-down: pamixer -d 2
+              left: footclient -T pulsemixer pulsemixer
+              right: pamixer -t
+
+            conditions:
+              muted && type == "sink":
+                string: {text: "󰸈 {cubic_volume}%", foreground: *color_attention}
+              ~muted && type == "sink":
+                ramp:
+                  tag: cubic_volume
+                  items:
+                    - string: {text: " {cubic_volume}%"}
+                    - string: {text: "󰖀 {cubic_volume}%"}
+                    - string: {text: "󰕾 {cubic_volume}%"}
+
+    - script:
+        path: ~/.local/bin/antenna
+        args:
+          - "-y bluetooth"
+        poll-interval: 3000
+        content:
+          map:
+            on-click:
+              left: sh -c "antenna -c bluetooth && bt -c"
+              right: "antenna -t bluetooth"
+            conditions:
+              bluetooth: {string: {text: 󰂯}}
+              ~bluetooth: {string: {text: 󰂲, foreground: *color_attention}}
+
+    - network:
+        spacing: 0
+        content:
+          map:
+            right-margin: *dmargin
+            on-click:
+              left: "notify-send 'TODO: Implement bring up network manager'"
+              right: "antenna -t wifi"
+
+            conditions:
+              name == "enp0s31f6" && state == "up":
+                string: {text: 󰈀}
+              name == "wlp0s20f3":
+                map:
+                  default:
+                    string: {text: 󰤭, foreground: *color_attention}
+                  conditions:
+                    ssid != "":
+                      ramp:
+                        tag: quality
+                        items:
+                          - string: {text: "󰤯 {ssid}"}
+                          - string: {text: "󰤟 {ssid}"}
+                          - string: {text: "󰤢 {ssid}"}
+                          - string: {text: "󰤥 {ssid}"}
+                          - string: {text: "󰤨 {ssid}"}
+    - river:
+        content:
+          map:
+            on-click:
+              left: sh -c "riverctl set-focused-tags $((1 << ({id} - 1)))"
+              right: sh -c "riverctl toggle-focused-tags $((1 << ({id} -1)))"
+              middle: sh -c "riverctl toggle-view-tags $((1 << ({id} -1)))"
+            conditions:
+              id > 8:
+                string: {text: }
+              urgent:
+                string: {text: "{id}", margin: *margin, deco: { background: {color: *color_attention} }}
+              focused:
+                string: {text: "{id}", margin: *margin, deco: { background: {color: *color_focused} }}
+              occupied:
+                string: {text: "{id}", margin: *margin }
+
+  right:
+    - mpd:
+        port: 6600
+        host: "127.0.0.1"
+        content:
+          map:
+            on-click:
+              left: "mpc toggle"
+              right: sh -c "riverctl set-focused-tags $((1 << 4)) && pgrep rmpc || setsid -f footclient rmpc"
+            conditions:
+              state == stopped:
+                - string: {text: 󰝛}
+                - string: {text: " Stopped", foreground: *foreground_dim }
+              state == offline:
+                - string: {text: 󰝛}
+                - string: {text: " Offline", foreground: *foreground_dim }
+              (state == paused || state == playing) && (artist != "" && title != ""):
+                list:
+                  spacing: 0
+                  items:
+                    - string: {text: "󰝚 "}
+                    - map:
+                        conditions:
+                          state == playing: {string: {text: "{artist}", foreground: *color_charging}}
+                          state == paused: {string: {text: "{artist}", foreground: *foreground_dim}}
+                    - map:
+                        conditions:
+                          state == playing: {string: {text: " | ", foreground: *foreground}}
+                          state == paused: {string: {text: " | ", foreground: *foreground_dim}}
+                    - map:
+                        conditions:
+                          state == playing: {string: {text: "{title}", foreground: *color_attention}}
+                          state == paused: {string: {text: "{title}", foreground: *foreground_dim}}
+                    - map:
+                        conditions:
+                          state == playing: {string: {text: " | ", foreground: *foreground}}
+                          state == paused: {string: {text: " | ", foreground: *foreground_dim}}
+                    - map:
+                        conditions:
+                          state == playing: {string: {text: "{pos}/{end}", foreground: *foreground}}
+                          state == paused: {string: {text: "{pos}/{end}", foreground: *foreground_dim}}
+              (state == paused || state == playing):
+                list:
+                  spacing: 0
+                  items:
+                    - string: {text: "󰝚 "}
+                    - map:
+                        conditions:
+                          state == playing: {string: {text: "{file}"}}
+                          state == paused: {string: {text: "{file}", foreground: *foreground_dim}}
+                    - map:
+                        conditions:
+                          state == playing: {string: {text: " | {pos}/{end}"}}
+                          state == paused: {string: {text: " | {pos}/{end}", foreground: *foreground_dim}}
+
+    - clock:
+        date-format: "%a %d/%m/%Y"
+        content:
+          - string: { text: " {date}", right-margin: *margin-side, on-click: sh -c "riverctl set-focused-tags $((1 << 5)) && setsid -f gnome-calendar" }
+          - string: { text: "󱑃 {time}", left-margin: *margin-side }
+
+    - label:
+        content:
+          string:
+            on-click: "wlogout"
+            text: 󰐥
