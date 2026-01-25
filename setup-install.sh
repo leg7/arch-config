@@ -11,7 +11,14 @@ mount --onlyonce -m -L "${my_hostname}R" /mnt
 mount --onlyonce -m -L "${my_hostname}H" /mnt/home
 mount --onlyonce -m PARTLABEL="${my_hostname}Esp" /mnt/boot
 
-pacstrap -K /mnt base linux linux-firmware xfsprogs cryptsetup lvm2 iwd impala
+pacstrap -K /mnt \
+	base linux linux-firmware \
+   	cryptsetup lvm2 \
+	iwd impala \
+	xfsprogs exfatprogs fuse2 fuse3 \
+	mesa \
+	neovim git less openssh 7zip bottom inetutils fd fzf \
+	doas texinfo pkgconf patch make guile gc libtool groff flex fakeroot debugedit xxhash bison automake autoconf m4 # This is base-devel without sudo
 
 mkswap -U clear --size 4G --file /mnt/swapfile
 swapon /mnt/swapfile
@@ -31,6 +38,9 @@ echo "KEYMAP=us" > /mnt/etc/vconsole.conf
 
 sed -i 's/HOOKS=.*/HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block sd-encrypt lvm2 filesystems fsck)/' /mnt/etc/mkinitcpio.conf
 arch-chroot /mnt mkinitcpio -P
+
+ln -sf /mnt/usr/bin/doas /mnt/usr/bin/sudo
+echo "permit persist keepenv :wheel as root" > /mnt/etc/doas.conf
 
 arch-chroot /mnt passwd
 arch-chroot /mnt useradd --groups wheel --create-home -U user

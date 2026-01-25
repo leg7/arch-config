@@ -4,12 +4,7 @@ print_separator() {
 	printf "\n\n----- %s -----\n\n" "$1"
 }
 
-print_separator "Enable crucial services"
-
 # Automate systemd boot update
-
-print_separator "Install base-devel without sudo "
-doas pacman -Sq --needed texinfo pkgconf patch make guile gc libtool groff flex fakeroot debugedit xxhash bison automake autoconf m4
 
 print_separator "Installing an AUR helper (yay)"
 if ! which yay; then
@@ -28,19 +23,12 @@ install() {
 	yay -Sq --needed --noconfirm "$@"
 }
 
-printf_separator "Use doas instead of sudo"
-install opendoas
-doas ln -sf /usr/bin/doas /usr/bin/sudo
-
-print_separator "Drivers"
-install mesa xfsprogs exfatprogs fuse2 fuse3
-
 print_separator "Bluetooth"
 install bluez bluez-utils bluetui
 systemctl enable --now bluetooth
 
 print_separator "Basic utilities"
-install neovim git fzf fd fish starship inetutils less bottom brightnessctl 7zip openssh
+install fish starship brightnessctl
 
 print_separator "Dev utilities"
 install cargo go clang make jq odin
