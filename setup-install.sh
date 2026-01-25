@@ -11,7 +11,7 @@ mount --onlyonce -m -L "${my_hostname}R" /mnt
 mount --onlyonce -m -L "${my_hostname}H" /mnt/home
 mount --onlyonce -m PARTLABEL="${my_hostname}Esp" /mnt/boot
 
-pacstrap -K /mnt base linux linux-firmware xfs-progs cryptsetup lvm2
+pacstrap -K /mnt base linux linux-firmware xfsprogs cryptsetup lvm2
 
 mkswap -U clear --size 4G --file /mnt/swapfile
 swapon /mnt/swapfile
