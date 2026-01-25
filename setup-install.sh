@@ -27,6 +27,8 @@ echo "LANG=en_US.UTF-8" > /mnt/etc/locale.conf
 
 echo "$my_hostname" > /mnt/etc/hostname
 
+echo "KEYMAP=us" > /mnt/etc/vconsole.conf
+
 sed -i 's/HOOKS=.*/HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block sd-encrypt lvm2 filesystems fsck)/' /mnt/etc/mkinitcpio.conf
 arch-chroot /mnt mkinitcpio -P
 arch-chroot /mnt passwd
