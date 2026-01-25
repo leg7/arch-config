@@ -7,16 +7,16 @@ fi
 
 my_hostname="$1"
 
-mount -m -L "${my_hostname}R" /mnt
-mount -m -L "${my_hostname}H" /mnt/home
-mount -m PARTLABEL="${my_hostname}Esp" /mnt/boot
+mount --onlyonce -m -L "${my_hostname}R" /mnt
+mount --onlyonce -m -L "${my_hostname}H" /mnt/home
+mount --onlyonce -m PARTLABEL="${my_hostname}Esp" /mnt/boot
+
+pacstrap -K /mnt base linux linux-firmware xfs-progs cryptsetup lvm2
 
 mkswap -U clear --size 4G --file /mnt/swapfile
 swapon /mnt/swapfile
 
 genfstab /mnt > /mnt/etc/fstab
-
-pacstrap -K /mnt base linux linux-firmware
 
 arch-chroot /mnt ln -sf /usr/share/zoneinfo/Europe/Paris /etc/localtime
 arch-chroot /mnt hwclock --systohc
@@ -27,6 +27,7 @@ echo "LANG=en_US.UTF-8" > /mnt/etc/locale.conf
 
 echo "$my_hostname" > /mnt/etc/hostname
 
+sed -i 's/HOOKS=.*/HOOKS=(base systemd autodetect microcode modconf kms keyboard sd-vconsole block sd-encrypt lvm2 filesystems fsck)/' /mnt/etc/mkinitcpio.conf
 arch-chroot /mnt mkinitcpio -P
 arch-chroot /mnt passwd
 
