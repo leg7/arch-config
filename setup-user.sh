@@ -42,7 +42,7 @@ install bluez bluez-utils bluetui
 systemctl enable --now bluetooth
 
 print_separator "Basic utilities"
-install neovim git fzf fd fish starship inetutils less bottom brightnessctl 7zip
+install neovim git fzf fd fish starship inetutils less bottom brightnessctl 7zip openssh
 
 print_separator "Dev utilities"
 install cargo go clang make jq odin
