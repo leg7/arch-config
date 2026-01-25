@@ -23,7 +23,7 @@ pacstrap -K /mnt \
 
 mkdir -p /mnt/home/user/code
 cp -r /root/arch-config /mnt/home/user/code
-arch-chroot /mnt cd /home/user/code/arch-config/live-iso/config-files && ./deploy.sh
+arch-chroot /mnt /bin/bash -c "cd /home/user/code/arch-config/live-iso/config-files && ./deploy.sh"
 
 mkswap -U clear --size 4G --file /mnt/swapfile
 swapon /mnt/swapfile

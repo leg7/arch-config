@@ -1,2 +1,3 @@
 #!/bin/sh
-doas stow -R --no-folding -t / .
+fd -t f -X rm -I /{}
+stow -R --no-folding -t / .
