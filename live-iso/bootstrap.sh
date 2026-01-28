@@ -17,7 +17,7 @@ pacstrap -K /mnt \
    	cryptsetup lvm2 \
 	iwd impala \
 	mesa \
-	neovim git less openssh 7zip bottom inetutils fd fzf which keyd \
+	neovim git less openssh 7zip bottom inetutils fd fzf which keyd tree rsync \
 	pam stow \
 	doas mandoc texinfo pkgconf patch make guile gc libtool groff flex fakeroot debugedit xxhash bison automake autoconf m4 # This is base-devel without sudo
 
