@@ -20,51 +20,6 @@ bar:
   trackpad-sensitivity: 40
 
   left:
-    - battery:
-        name: BAT0
-        content:
-          map:
-            default:
-              ramp:
-                tag: capacity
-                items:
-                  - string: {text: "󰂎 {capacity}%"}
-                  - string: {text: "󰁺 {capacity}%"}
-                  - string: {text: "󰁼 {capacity}%"}
-                  - string: {text: "󰁽 {capacity}%"}
-                  - string: {text: "󰁾 {capacity}%"}
-                  - string: {text: "󰁿 {capacity}%"}
-                  - string: {text: "󰂀 {capacity}%"}
-                  - string: {text: "󰂁 {capacity}%"}
-                  - string: {text: "󰂂 {capacity}%"}
-                  - string: {text: "󰁹 {capacity}%"}
-
-            conditions:
-              state == "charging":
-                ramp:
-                  foreground: *color_charging
-                  tag: capacity
-                  items:
-                    - string: {text: "󰢜 {capacity}%"}
-                    - string: {text: "󰂆 {capacity}%"}
-                    - string: {text: "󰂇 {capacity}%"}
-                    - string: {text: "󰂈 {capacity}%"}
-                    - string: {text: "󰢝 {capacity}%"}
-                    - string: {text: "󰂉 {capacity}%"}
-                    - string: {text: "󰢞 {capacity}%"}
-                    - string: {text: "󰂊 {capacity}%"}
-                    - string: {text: "󰂋 {capacity}%"}
-                    - string: {text: "󰂅 {capacity}%"}
-
-    - backlight:
-        name: intel_backlight
-        content:
-          string:
-            text: "󰛨 {percent}%"
-            on-click:
-              wheel-up: "brightnessctl s 2%+"
-              wheel-down: "brightnessctl s 2%-"
-
     - pipewire:
         content:
           map:
@@ -109,9 +64,9 @@ bar:
               right: "antenna -t wifi"
 
             conditions:
-              name == "enp0s31f6" && state == "up":
+              name == "eno1" && state == "up":
                 string: {text: 󰈀}
-              name == "wlp0s20f3":
+              name == "wlp5s0":
                 map:
                   default:
                     string: {text: 󰤭, foreground: *color_attention}
@@ -125,6 +80,7 @@ bar:
                           - string: {text: "󰤢 {ssid}"}
                           - string: {text: "󰤥 {ssid}"}
                           - string: {text: "󰤨 {ssid}"}
+
     - script:
         path: /usr/bin/yambar-hyprland-wses
         anchors:
@@ -258,7 +214,6 @@ bar:
                       string: { text: *ws_8, margin: *margin, deco: { background: {color: *color_attention} }}
                     workspace_8_windows == 0:
                       empty: {}
-
   right:
     - mpd:
         port: 6600
