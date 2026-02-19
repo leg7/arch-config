@@ -111,7 +111,7 @@ bar:
             conditions:
               name == "enp0s31f6" && state == "up":
                 string: {text: 󰈀}
-              name == "wlp0s20f3":
+              name == "wlan0":
                 map:
                   default:
                     string: {text: 󰤭, foreground: *color_attention}

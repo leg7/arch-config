@@ -1,3 +1,5 @@
 [user]
 	email = leonard.gomez@protonmail.com
 	name = leg7
+[init]
+	defaultBranch = main

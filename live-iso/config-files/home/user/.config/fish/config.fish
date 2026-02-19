@@ -6,6 +6,7 @@ if status is-login
 	set -gx LESS "Ri" # Less default options (inhibits git from calling less with -F and -R)
 	set -gx BROWSER "brave"
 	set -gx EDITOR "nvim"
+	set -gx MAKEFLAGS "-j$(nproc)"
 
 	set -gx ASAN_OPTIONS "halt_on_error=0"
 	set -gx FZF_DEFAULT_OPTS "--ansi --layout reverse --color fg:-1,fg+:-1,bg:-1,bg+:-1,hl:-1,hl+:-1,query:-1,gutter:-1"
@@ -56,6 +57,8 @@ function fzf-history
 end
 
 if status is-interactive
+	fish_vi_key_bindings
+
 	for mode in default normal insert
 		bind -M $mode \cg "setsid -f xdg-open ." # g for gui
 

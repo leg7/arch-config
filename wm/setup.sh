@@ -18,7 +18,7 @@ yay -Syuq --needed --noconfirm \
 	picard spek-x-bin coppwr easyeffects lsp-plugins \
 	rmpc pulsemixer pamixer playerctl \
 	transmission-cli rustmission-bin \
-	hyprland foot yambar-hyprland-wses fnott fuzzel swaybg yambar-wayland \
+	hyprland foot yambar-hyprland-wses fnott fuzzel swaybg yambar-wayland kanshi flameshot \
 	neovide mpv imv brave-bin signal-desktop qalculate-gtk mullvad-vpn-bin \
 	zathura zathura-cb zathura-djvu zathura-pdf-mupdf zathura-ps \
 	lact syncthing \
@@ -27,6 +27,7 @@ yay -Syuq --needed --noconfirm \
 	steam proton-ge-custom-bin mangohud gamescope gamemode heroic-games-launcher-bin prismlauncher \
 	stow
 
+go install github.com/sav/mpd-brainz@latest
 
 systemctl --user enable --now pipewire pipewire-pulse wireplumber mpd
 systemctl enable --now bluetooth transmission lactd syncthing@user.service
