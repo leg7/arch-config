@@ -1,0 +1,45 @@
+#!/bin/fish
+
+set -l options (fish_opt -l remove-cover -s c)
+set -l options $options (fish_opt -l resample -s r)
+set -l options $options (fish_opt -l split -s s)
+set -l options $options (fish_opt -l help -s h)
+argparse $options -- $argv
+
+if set -q _flag_help
+	printf "Chopin helps me normalize my music collection
+
+
+remove-cover and resample options apply to all flac files found in the current directory and below.
+split only applies to the current dir.
+
+Options:\n
+
+	--remove-cover  -c | Removes covers embeded in flac metadata with metaflac
+	--resample      -r | Resamples flac files to be 44.1kHz and 16 bit with ffmpeg
+	--split         -s | splits an image with a cue into tracks and cleans up the image and cue
+	"
+end
+
+if set -q _flag_remove_cover
+	fd -e flac -x metaflac --remove --block-type=PICTURE {}
+end
+
+if set -q _flag_resample
+	fd -e flac -x ffmpeg -i {} -resampler soxr -sample_fmt s16 -ar 44100 -f flac {.}.resampled
+	fd -e flac -x rm {}
+	fd -e resampled -X rename .resampled .flac {}
+end
+
+if set -q _flag_split
+	set image (fd -1 -e flac)
+	set cue (fd -1 -e cue)
+	if test -z $image || test -z $cue
+		echo "Could not find an image and a cue :("
+		exit 1
+	end
+
+	shnsplit -f $cue -o flac -t "%n ; %t" $image
+	rm $image $cue
+end
+

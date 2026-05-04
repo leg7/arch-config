@@ -14,11 +14,12 @@ yay -Syuq --needed --noconfirm \
 	bluez bluez-utils bluetui \
 	fish starship brightnessctl \
 	cargo go clang make jq odin \
+	ripgrep \
 	pipewire pipewire-audio pipewire-alsa pipewire-pulse rtkit wireplumber pipewire-docs mpd mpc \
-	picard spek-x-bin coppwr easyeffects lsp-plugins \
+	picard spek shntool coppwr easyeffects lsp-plugins \
 	rmpc pulsemixer pamixer playerctl \
 	transmission-cli rustmission-bin \
-	hyprland foot yambar-hyprland-wses fnott fuzzel swaybg yambar-wayland kanshi flameshot \
+	hyprland xdg-desktop-portal-gtk foot yambar-hyprland-wses fnott fuzzel swaybg yambar-wayland kanshi flameshot \
 	neovide mpv imv brave-bin signal-desktop qalculate-gtk mullvad-vpn-bin \
 	zathura zathura-cb zathura-djvu zathura-pdf-mupdf zathura-ps \
 	lact syncthing \
@@ -30,4 +31,4 @@ yay -Syuq --needed --noconfirm \
 go install github.com/sav/mpd-brainz@latest
 
 systemctl --user enable --now pipewire pipewire-pulse wireplumber mpd
-systemctl enable --now bluetooth transmission lactd syncthing@user.service
+systemctl enable --now bluetooth lactd syncthing@user.service

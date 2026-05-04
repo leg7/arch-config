@@ -2,7 +2,6 @@
 -- configure lua snippets
 -- Fix 'gl' conflict between vim-lion and lsp
 -- make better treesitter text objects to improve navigation
--- Fix ctrl T bind conflict with terminal bind
 -- change ctl ] [ binds
 -- figure out quickfix
 
@@ -124,7 +123,7 @@ require('lazy').setup({
 					local msg = ''
 
 					local buf_ft = vim.api.nvim_buf_get_option(0, 'filetype')
-					local clients = vim.lsp.get_active_clients()
+					local clients = vim.lsp.get_clients()
 					if next(clients) == nil then
 						return msg
 					end
@@ -221,10 +220,10 @@ require('lazy').setup({
 	},
 	{
 		'nvim-treesitter/nvim-treesitter',
-		tag = "v0.9.3",
-		event = 'BufEnter',
+		lazy = false,
+		build = ':TSUpdate',
 		config = function()
-			require'nvim-treesitter.configs'.setup {
+			require('nvim-treesitter').setup {
 				highlight = { enable = true },
 
 				indent = {
@@ -296,24 +295,6 @@ require('lazy').setup({
 		end,
 		ft = { 'lua', 'ruby', 'vimscript', 'sh', 'elixir', 'fish', 'julia' },
 		dependencies = 'nvim-treesitter/nvim-treesitter',
-	},
-	{
-		'andymass/vim-matchup',
-		event = 'BufEnter',
-		dependencies = 'nvim-treesitter/nvim-treesitter',
-		init = function()
-			vim.g.matchup_surround_enabled = 1
-			vim.g.matchup_transmute_enabled = 1
-			vim.g.matchup_delim_stopline = 3000
-		end,
-		config = function()
-			require('nvim-treesitter.configs').setup {
-				matchup = {
-					enable = true,
-					disable = {},
-				},
-			}
-		end
 	},
 	{
 		'kylechui/nvim-surround',
@@ -683,7 +664,17 @@ vim.opt.scrolloff = 4
 
 vim.opt.termguicolors = true
 vim.opt.cursorline = true
-vim.opt.fillchars = { eob = ' ' }
+vim.opt.fillchars = {
+	eob = ' ',
+	vert = '│',
+	horiz = '─',
+	horizup = '┴',
+	horizdown = '┬',
+	vertleft = '┤',
+	vertright = '├',
+	verthoriz = '┼',
+}
+
 vim.opt.wrap = true
 vim.opt.breakindent = true
 vim.opt.showbreak = '↳ '
@@ -769,10 +760,10 @@ vim.api.nvim_create_autocmd('UIEnter', {
 	callback = function()
 		if vim.g.neovide then
 			vim.opt.lazyredraw = false
-			vim.o.guifont = 'monospace:h12:#e-subpixelantialias:#h-full'
-			vim.o.linespace = 2
+			vim.o.guifont = 'monospace:h12'
+			vim.o.linespace = 3
 			vim.g.neovide_cursor_vfx_mode = 'pixiedust'
-			vim.g.neovide_opacity = 1
+			vim.g.neovide_opacity = 0.96
 			vim.g.transparency = vim.g.neovide_opacity
 			vim.g.neovide_floating_blur_amount_x = 0
 			vim.g.neovide_floating_blur_amount_y = 0
@@ -839,16 +830,6 @@ vim.lsp.config('lua_ls', {
 				library = vim.api.nvim_get_runtime_file("", true), -- Make the server aware of Neovim runtime files
 			},
 			telemetry = { enable = false, },
-		},
-	},
-})
-
-vim.lsp.config('gopls', {
-	capabilities = {
-		workspace = {
-			didChangeWatchedFiles = {
-				dynamicRegistration = true,
-			},
 		},
 	},
 })

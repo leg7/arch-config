@@ -19,7 +19,7 @@ pacstrap -K /mnt \
 	mesa \
 	neovim git less openssh 7zip bottom inetutils fd fzf which keyd tree rsync \
 	pam stow \
-	doas mandoc texinfo pkgconf patch make guile gc libtool groff flex fakeroot debugedit xxhash bison automake autoconf m4 # This is base-devel without sudo
+	doas mandoc man-pages man-pages-utils texinfo pkgconf patch make guile gc libtool groff flex fakeroot debugedit xxhash bison automake autoconf m4 # This is base-devel without sudo
 
 mkdir -p /mnt/home/user/code
 cp -r /root/arch-config /mnt/home/user/code
