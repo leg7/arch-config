@@ -8,6 +8,14 @@ profile docked-stat {
 	exec idle --docked
 }
 
+profile dan {
+	output "Shenzhen *" {
+		enable
+		mode 2560x1440@180
+	}
+	exec yambar-reload
+}
+
 profile nomad {
 	output eDP-1 enable
 	exec yambar-reload
