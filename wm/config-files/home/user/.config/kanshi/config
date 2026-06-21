@@ -2,7 +2,6 @@ profile docked-stat {
 	output eDP-1 disable
 	output "GIGA-BYTE *" {
 		enable
-		mode 2560x1440@170.001007
 	}
 	exec yambar-reload
 	exec idle --docked
@@ -17,7 +16,7 @@ profile dan {
 }
 
 profile nomad {
-	output eDP-1 enable
+	output "AU Optronics *" enable
 	exec yambar-reload
 	exec antenna -c wlan
 	exec idle
