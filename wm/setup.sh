@@ -7,7 +7,9 @@ if ! which yay; then
 	if git pull; then
 		makepkg --needed -si
 	fi
+	cd .. || exit
 	rm -r yay-bin
+	yay --sudo /usr/bin/doas --save
 fi
 
 yay -Syuq --needed --noconfirm \
@@ -28,7 +30,10 @@ yay -Syuq --needed --noconfirm \
 	steam proton-ge-custom-bin mangohud gamescope gamemode heroic-games-launcher-bin prismlauncher \
 	stow
 
+chsh --shell /usr/bin/fish
+
 go install github.com/sav/mpd-brainz@latest
 
-systemctl --user enable --now pipewire pipewire-pulse wireplumber mpd
-systemctl enable --now bluetooth lactd syncthing@user.service
+doas systemctl --user enable --now pipewire pipewire-pulse wireplumber mpd
+doas systemctl enable --now bluetooth lactd 
+systemctl enable --now syncthing@user.service

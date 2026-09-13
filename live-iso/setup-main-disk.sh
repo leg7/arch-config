@@ -87,7 +87,7 @@ parted "$disk" -s \
 	set 1 esp on
 
 # Encrypt system partition
-system_partition="$(lsblk -nr -o PATH $disk | sed -n '3p')"
+system_partition="$(lsblk -nr -x PATH -o PATH $disk | sed -n '3p')"
 cryptsetup luksFormat "$system_partition"
 cryptsetup open "$system_partition" "${hostname}_luks"
 
@@ -98,7 +98,7 @@ lvcreate --name root -L 40G "$vg"
 lvcreate --name home -l 100%FREE "$vg"
 
 # make filesystems
-esp_partition="$(lsblk -nr -o PATH $disk | sed -n '2p')"
+esp_partition="$(lsblk -nr -x PATH -o PATH $disk | sed -n '2p')"
 mkfs.vfat -F32 "$esp_partition"
 mkfs.xfs -L "${hostname}R" /dev/"$vg"/root
 mkfs.xfs -L "${hostname}H" /dev/"$vg"/home

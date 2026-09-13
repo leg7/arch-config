@@ -129,22 +129,140 @@ bar:
                           - string: {text: "󰤢 {ssid}"}
                           - string: {text: "󰤥 {ssid}"}
                           - string: {text: "󰤨 {ssid}"}
-    - river:
+
+    - script:
+        path: /usr/bin/yambar-hyprland-wses
+        anchors:
+          ws_empty: &ws_empty 555555ff
+          ws_other: &ws_other bbbbbbff
+          # you can use `{workspace_N}` here to use the workspace name
+          # assigned by Hyprland instead of hard-coding one here. That
+          # name is, as far as I can tell, always just the index of the
+          # workspace though, so not all that valuable.
+          ws_1: &ws_1 ""
+          ws_2: &ws_2 "󰙨"
+          ws_3: &ws_3 "󰈙"
+          ws_4: &ws_4 ""
+          ws_5: &ws_5 "󰍦"
+          ws_6: &ws_6 ""
+          ws_7: &ws_7 ""
+          ws_8: &ws_8 ""
         content:
-          map:
-            on-click:
-              left: sh -c "riverctl set-focused-tags $((1 << ({id} - 1)))"
-              right: sh -c "riverctl toggle-focused-tags $((1 << ({id} -1)))"
-              middle: sh -c "riverctl toggle-view-tags $((1 << ({id} -1)))"
-            conditions:
-              id > 7:
-                string: {text: }
-              urgent:
-                string: {text: "{id}", margin: *margin, deco: { background: {color: *color_attention} }}
-              focused:
-                string: {text: "{id}", margin: *margin, deco: { background: {color: *color_focused} }}
-              occupied:
-                string: {text: "{id}", margin: *margin }
+          list:
+            spacing: 0
+            items:
+              - map:
+                  on-click:
+                    left: sh -c "hyprctl dispatch workspace 1"
+                  default:
+                    string: { text: *ws_1, margin: *margin, deco: { background: {color: *background} }}
+                  conditions:
+                    workspace_count < 2:
+                      empty: {}
+                    workspace_1_focused:
+                      string: { text: *ws_1, margin: *margin, deco: { background: {color: *color_focused} }}
+                    workspace_1_active:
+                      string: { text: *ws_1, margin: *margin, deco: { background: {color: *color_attention} }}
+                    workspace_1_windows == 0:
+                      empty: {}
+              - map:
+                  on-click:
+                    left: sh -c "hyprctl dispatch workspace 2"
+                  default:
+                    string: { text: *ws_2, margin: *margin, deco: { background: {color: *background} }}
+                  conditions:
+                    workspace_count < 3:
+                      empty: {}
+                    workspace_2_focused:
+                      string: { text: *ws_2, margin: *margin, deco: { background: {color: *color_focused} }}
+                    workspace_2_active:
+                      string: { text: *ws_2, margin: *margin, deco: { background: {color: *color_attention} }}
+                    workspace_2_windows == 0:
+                      empty: {}
+              - map:
+                  on-click:
+                    left: sh -c "hyprctl dispatch workspace 3"
+                  default:
+                    string: { text: *ws_3, margin: *margin, deco: { background: {color: *background} }}
+                  conditions:
+                    workspace_count < 4:
+                      empty: {}
+                    workspace_3_focused:
+                      string: { text: *ws_3, margin: *margin, deco: { background: {color: *color_focused} }}
+                    workspace_3_active:
+                      string: { text: *ws_3, margin: *margin, deco: { background: {color: *color_attention} }}
+                    workspace_3_windows == 0:
+                      empty: {}
+              - map:
+                  on-click:
+                    left: sh -c "hyprctl dispatch workspace 4"
+                  default:
+                    string: { text: *ws_4, margin: *margin, deco: { background: {color: *background} }}
+                  conditions:
+                    workspace_count < 5:
+                      empty: {}
+                    workspace_4_focused:
+                      string: { text: *ws_4, margin: *margin, deco: { background: {color: *color_focused} }}
+                    workspace_4_active:
+                      string: { text: *ws_4, margin: *margin, deco: { background: {color: *color_attention} }}
+                    workspace_4_windows == 0:
+                      empty: {}
+              - map:
+                  on-click:
+                    left: sh -c "hyprctl dispatch workspace 5"
+                  default:
+                    string: { text: *ws_5, margin: *margin, deco: { background: {color: *background} }}
+                  conditions:
+                    workspace_count < 6:
+                      empty: {}
+                    workspace_5_focused:
+                      string: { text: *ws_5, margin: *margin, deco: { background: {color: *color_focused} }}
+                    workspace_5_active:
+                      string: { text: *ws_5, margin: *margin, deco: { background: {color: *color_attention} }}
+                    workspace_5_windows == 0:
+                      empty: {}
+              - map:
+                  on-click:
+                    left: sh -c "hyprctl dispatch workspace 6"
+                  default:
+                    string: { text: *ws_6, margin: *margin, deco: { background: {color: *background} }}
+                  conditions:
+                    workspace_count < 7:
+                      empty: {}
+                    workspace_6_focused:
+                      string: { text: *ws_6, margin: *margin, deco: { background: {color: *color_focused} }}
+                    workspace_6_active:
+                      string: { text: *ws_6, margin: *margin, deco: { background: {color: *color_attention} }}
+                    workspace_6_windows == 0:
+                      empty: {}
+              - map:
+                  on-click:
+                    left: sh -c "hyprctl dispatch workspace 7"
+                  default:
+                    string: { text: *ws_7, margin: *margin, deco: { background: {color: *background} }}
+                  conditions:
+                    workspace_count < 8:
+                      empty: {}
+                    workspace_7_focused:
+                      string: { text: *ws_7, margin: *margin, deco: { background: {color: *color_focused} }}
+                    workspace_7_active:
+                      string: { text: *ws_7, margin: *margin, deco: { background: {color: *color_attention} }}
+                    workspace_7_windows == 0:
+                      empty: {}
+              - map:
+                  on-click:
+                    left: sh -c "hyprctl dispatch workspace 8"
+                  default:
+                    string: { text: *ws_8, margin: *margin, deco: { background: {color: *background} }}
+                  conditions:
+                    workspace_count < 9:
+                      empty: {}
+                    workspace_8_focused:
+                      string: { text: *ws_8, margin: *margin, deco: { background: {color: *color_focused} }}
+                    workspace_8_active:
+                      string: { text: *ws_8, margin: *margin, deco: { background: {color: *color_attention} }}
+                    workspace_8_windows == 0:
+                      empty: {}
 
   right:
     - mpd:

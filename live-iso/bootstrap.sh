@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -x
 
 if test "$1" = ""; then
 	printf "Please provide the hostname of the system you want to install void to as the first and only argument\n"
@@ -23,7 +23,10 @@ pacstrap -K /mnt \
 
 mkdir -p /mnt/home/user/code
 cp -r /root/arch-config /mnt/home/user/code
-arch-chroot /mnt /bin/bash -c "cd /home/user/code/arch-config/live-iso/config-files && ./deploy.sh"
+live-iso="/home/user/code/arch-config/live-iso/config-files"
+arch-chroot /mnt /bin/bash -c "stow -R --no-folding --dir /home/user/code/arch-config/live-iso/config-files -t /home home"
+arch-chroot /mnt /bin/bash -c "stow -R --no-folding --dir /home/user/code/arch-config/live-iso/config-files -t /etc etc"
+arch-chroot /mnt /bin/bash -c "stow -R --no-folding --dir /home/user/code/arch-config/live-iso/config-files -t /root root"
 
 mkswap -U clear --size 4G --file /mnt/swapfile
 swapon /mnt/swapfile
@@ -45,9 +48,9 @@ arch-chroot /mnt passwd
 arch-chroot /mnt useradd --groups wheel -U user
 arch-chroot /mnt passwd user
 
-arch-chroot /mnt systemctl enable systemd-networkd systemd-resolved iwd keyd
 arch-chroot /mnt ln -sf /run/systemd/resolve/stub-resolv.conf /etc/resolv.conf
-arch-chroot /mnt ln -sf /usr/lib/systemd/network/89-ethernet.network.example /usr/lib/systemd/network/89-ethernet.network
+arch-chroot /mnt ln -sf /usr/lib/systemd/network/89-ethernet.network.example /etc/systemd/network/89-ethernet.network
+arch-chroot /mnt systemctl enable systemd-networkd systemd-resolved iwd keyd
 
 luks_uuid="$(blkid -o value -s UUID -t PARTLABEL="${my_hostname}Luks")"
 mkdir -p /mnt/boot/loader/entries
