@@ -11,12 +11,12 @@ doas pacman -Suq --needed --noconfirm \
 	picard spek easyeffects lsp-plugins \
 	rmpc pulsemixer pamixer playerctl \
 	transmission-cli \
-	hyprland xdg-desktop-portal-gtk xdg-desktop-portal-hyprland \
+	hyprland xdg-desktop-portal-gtk xdg-desktop-portal-hyprland hyprsunset \
 	foot fnott fuzzel swaybg kanshi flameshot \
 	neovide mpv imv signal-desktop qalculate-gtk \
 	zathura zathura-cb zathura-djvu zathura-pdf-mupdf zathura-ps \
 	lact syncthing \
-	wlr-randr yt-dlp wl-clipboard imagemagick ffmpeg slurp grim satty wlsunset \
+	wlr-randr yt-dlp wl-clipboard imagemagick ffmpeg \
 	noto-fonts noto-fonts-emoji noto-fonts-cjk noto-fonts-extra ttf-nerd-fonts-symbols \
 	steam mangohud gamescope gamemode prismlauncher \
 	mullvad-vpn-daemon mullvad-vpn \
@@ -33,7 +33,7 @@ fi
 dash_path="$(which dash)"
 doas ln -sf "$dash_path" /bin/sh
 
-doas systemctl --user enable --now pipewire pipewire-pulse wireplumber mpd
+doas systemctl --user enable --now pipewire pipewire-pulse wireplumber mpd hyprsunset.service
 doas systemctl enable --now bluetooth lactd
 doas systemctl enable --now syncthing --machine user@.host --user
 
