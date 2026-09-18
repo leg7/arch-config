@@ -34,7 +34,7 @@ dash_path="$(which dash)"
 doas ln -sf "$dash_path" /bin/sh
 
 doas systemctl --machine user@.host --user enable --now pipewire pipewire-pulse wireplumber
-doas systemctl enable --now bluetooth lactd
+doas systemctl enable --now bluetooth lactd mullvad-daemon
 
 if test "$(hostname)" = "t480"; then
 	doas systemctl enable --now tlp
