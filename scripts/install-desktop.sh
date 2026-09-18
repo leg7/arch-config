@@ -11,7 +11,7 @@ doas pacman -Suq --needed --noconfirm \
 	picard spek easyeffects lsp-plugins \
 	rmpc pulsemixer pamixer playerctl \
 	transmission-cli \
-	hyprland xdg-desktop-portal-gtk xdg-desktop-portal-hyprland hyprsunset hyprpaper hyprlock hypridle \
+	hyprland xdg-desktop-portal-gtk xdg-desktop-portal-hyprland hyprsunset hyprpaper hyprlock hypridle hyprpolkitagent hyprpicker \
 	foot fnott fuzzel kanshi flameshot \
 	neovide mpv imv signal-desktop qalculate-gtk \
 	zathura zathura-cb zathura-djvu zathura-pdf-mupdf zathura-ps \
@@ -30,8 +30,17 @@ if test "$SHELL" != "$fish_path"; then
 	chsh --shell /usr/bin/fish
 fi
 
+# Use dash as /bin/sh
+
 dash_path="$(which dash)"
 doas ln -sf "$dash_path" /bin/sh
+
+# Create directories and files needed for MPD
+
+mkdir -p "$HOME"/audio/playlists "$HOME"/audio/music/flac "$XDG_CACHE_HOME"/mpd
+touch "$XDG_CACHE_HOME"/mpd/mpd.db
+
+# Enable system services
 
 doas systemctl --machine user@.host --user enable --now pipewire pipewire-pulse wireplumber
 doas systemctl enable --now bluetooth lactd mullvad-daemon
