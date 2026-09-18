@@ -11,8 +11,8 @@ doas pacman -Suq --needed --noconfirm \
 	picard spek easyeffects lsp-plugins \
 	rmpc pulsemixer pamixer playerctl \
 	transmission-cli \
-	hyprland xdg-desktop-portal-gtk xdg-desktop-portal-hyprland hyprsunset \
-	foot fnott fuzzel swaybg kanshi flameshot \
+	hyprland xdg-desktop-portal-gtk xdg-desktop-portal-hyprland hyprsunset hyprpaper \
+	foot fnott fuzzel kanshi flameshot \
 	neovide mpv imv signal-desktop qalculate-gtk \
 	zathura zathura-cb zathura-djvu zathura-pdf-mupdf zathura-ps \
 	lact syncthing \
@@ -33,9 +33,8 @@ fi
 dash_path="$(which dash)"
 doas ln -sf "$dash_path" /bin/sh
 
-doas systemctl --user enable --now pipewire pipewire-pulse wireplumber mpd hyprsunset.service
+doas systemctl --machine user@.host --user enable --now pipewire pipewire-pulse wireplumber
 doas systemctl enable --now bluetooth lactd
-doas systemctl enable --now syncthing --machine user@.host --user
 
 if test "$(hostname)" = "t480"; then
 	doas systemctl enable --now tlp

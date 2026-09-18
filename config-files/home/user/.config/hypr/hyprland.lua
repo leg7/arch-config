@@ -237,18 +237,19 @@ hl.device({
 
 hl.on("hyprland.start", function()
 	-- One time
-	hl.exec_cmd("setbg -i")
 	hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
 	hl.exec_cmd("kanshi")
 	-- Daemons
+	hl.exec_cmd("hyprpaper")
+	hl.exec_cmd("hyprsunset")
 	hl.exec_cmd("yambar-reload")
 	hl.exec_cmd("foot --server")
 	hl.exec_cmd("fnott")
 	hl.exec_cmd("transmission-daemon")
-	hl.exec_cmd("wlsunset -S 6:00 -s 21:00 -t 4000 -d 900")
 	hl.exec_cmd("easyeffects --gapplication-service")
 	hl.exec_cmd("mpd")
 	hl.exec_cmd("mpd-brainz")
+	hl.exec_cmd("syncthing --no-browser")
 end)
 
 --- Env vars
