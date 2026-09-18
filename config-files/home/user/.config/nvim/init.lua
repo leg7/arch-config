@@ -33,20 +33,12 @@ local lsp_servers = {
 	'bashls',
 	'gopls',
 	'hls',
-	'zls',
 	'rust_analyzer',
 	'lua_ls',
-
-	'emmet_ls',
-	'ts_ls',
-	'jdtls',
 	'pylsp',
 }
 
 local lsp_servers_for_mason_to_install = {
-	'emmet_ls',
-	'ts_ls',
-	'jdtls',
 	'pylsp',
 }
 
@@ -244,6 +236,7 @@ require('lazy').setup({
 					},
 				},
 			}
+			require('nvim-treesitter').install { 'c', 'cpp', 'go', 'bash', 'lua', 'python' }
 		end,
 	},
 	{
@@ -288,11 +281,11 @@ require('lazy').setup({
 	},
 	{
 		'RRethy/nvim-treesitter-endwise',
-		config = function()
-			require('nvim-treesitter.configs').setup {
-				endwise = { enable = true },
-			}
-		end,
+		-- config = function()
+		-- 	require('nvim-treesitter.configs').setup {
+		-- 		endwise = { enable = true },
+		-- 	}
+		-- end,
 		ft = { 'lua', 'ruby', 'vimscript', 'sh', 'elixir', 'fish', 'julia' },
 		dependencies = 'nvim-treesitter/nvim-treesitter',
 	},

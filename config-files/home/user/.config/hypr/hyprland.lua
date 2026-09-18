@@ -91,22 +91,22 @@ hl.monitor({
 --- Binds
 
 -- Application Launchers
-hl.bind("SUPER + CONTROL + B", hl.dsp.exec_cmd("brave")) -- TODO: Use $BROWSER
-hl.bind("SUPER + CONTROL + C", hl.dsp.exec_cmd("qalculate-gtk"))
-hl.bind("SUPER + CONTROL + E", hl.dsp.exec_cmd("foot -f monospace:pixelsize=20 -T emoji-picker emoji"))
-hl.bind("SUPER + CONTROL + F", hl.dsp.exec_cmd("nemo"))
-hl.bind("SUPER + CONTROL + G", hl.dsp.exec_cmd("steam"))
-hl.bind("SUPER + CONTROL + L", hl.dsp.exec_cmd("swaylock"))
-hl.bind("SUPER + CONTROL + M", hl.dsp.exec_cmd("music"))
-hl.bind("SUPER + CONTROL + N", hl.dsp.exec_cmd("neovide"))
-hl.bind("SUPER + CONTROL + Q", hl.dsp.exec_cmd("qr"))
-hl.bind("SUPER + CONTROL + R", hl.dsp.exec_cmd("fuzzel"))
-hl.bind("SUPER + CONTROL + T", hl.dsp.exec_cmd("footclient"))
-hl.bind("SUPER + CONTROL + V", hl.dsp.exec_cmd("footclient -T pulsemixer pulsemixer"))
-hl.bind("SUPER + CONTROL + W", hl.dsp.exec_cmd("wl-color-picker"))
+hl.bind("SUPER + CONTROL + B",      hl.dsp.exec_cmd("brave")) -- TODO: Use $BROWSER
+hl.bind("SUPER + CONTROL + C",      hl.dsp.exec_cmd("qalculate-gtk"))
+hl.bind("SUPER + CONTROL + E",      hl.dsp.exec_cmd("foot -f monospace:pixelsize=20 -T emoji-picker emoji"))
+hl.bind("SUPER + CONTROL + F",      hl.dsp.exec_cmd("nemo"))
+hl.bind("SUPER + CONTROL + G",      hl.dsp.exec_cmd("steam"))
+hl.bind("SUPER + CONTROL + L",      hl.dsp.exec_cmd("swaylock"))
+hl.bind("SUPER + CONTROL + M",      hl.dsp.exec_cmd("music"))
+hl.bind("SUPER + CONTROL + N",      hl.dsp.exec_cmd("neovide"))
+hl.bind("SUPER + CONTROL + Q",      hl.dsp.exec_cmd("qr"))
+hl.bind("SUPER + CONTROL + R",      hl.dsp.exec_cmd("fuzzel"))
+hl.bind("SUPER + CONTROL + T",      hl.dsp.exec_cmd("footclient"))
+hl.bind("SUPER + CONTROL + V",      hl.dsp.exec_cmd("footclient -T pulsemixer pulsemixer"))
+hl.bind("SUPER + CONTROL + W",      hl.dsp.exec_cmd("wl-color-picker"))
 hl.bind("SUPER + CONTROL + ESCAPE", hl.dsp.exec_cmd("pkill hyprland"))
-hl.bind("SUPER + CONTROL + X", hl.dsp.window.close())
-hl.bind("SUPER + CONTROL + K", hl.dsp.window.kill())
+hl.bind("SUPER + CONTROL + X",      hl.dsp.window.close())
+hl.bind("SUPER + CONTROL + K",      hl.dsp.window.kill())
 
 -- Focus & Movement (Normal Mode)
 hl.bind("SUPER + J", hl.dsp.focus({ direction = "d" }))
@@ -196,18 +196,18 @@ end
 -- # "All Tags" -> Special Workspace (Scratchpad)
 -- bind = $mainMod, A, togglespecialworkspace
 -- bind = $mainMod SHIFT, A, movetoworkspace, special
---
+
 -- # --- Media & Hardware Keys ---
--- bindl = , XF86AudioRaiseVolume, exec, pamixer -i 2
--- bindl = , XF86AudioLowerVolume, exec, pamixer -d 2
--- bindl = , XF86AudioMute, exec, pamixer -t
--- bindl = , XF86AudioMedia, exec, playerctl play-pause
--- bindl = , XF86AudioPlay, exec, playerctl play-pause
--- bindl = , XF86AudioPrev, exec, playerctl previous
--- bindl = , XF86AudioNext, exec, playerctl next
--- bind = , Print, exec, flameshot gui
--- bindl = , XF86MonBrightnessUp, exec, brightnessctl set +2%
--- bindl = , XF86MonBrightnessDown, exec, brightnessctl set 2%-
+hl.bind('XF86AudioRaiseVolume',  hl.dsp.exec_cmd("pamixer -i 2"))
+hl.bind('XF86AudioLowerVolume',  hl.dsp.exec_cmd("pamixer -d 2"))
+hl.bind('XF86AudioMute',         hl.dsp.exec_cmd("pamixer -t"))
+hl.bind('XF86AudioMedia',        hl.dsp.exec_cmd("playerctl play-pause"))
+hl.bind('XF86AudioPlay',         hl.dsp.exec_cmd("playerctl play-pause"))
+hl.bind('XF86AudioPrev',         hl.dsp.exec_cmd("playerctl previous"))
+hl.bind('XF86AudioNext',         hl.dsp.exec_cmd("playerctl next"))
+hl.bind('Print',                 hl.dsp.exec_cmd("flameshot gui"))
+hl.bind('XF86MonBrightnessUp',   hl.dsp.exec_cmd("brightnessctl set +2%"))
+hl.bind('XF86MonBrightnessDown', hl.dsp.exec_cmd("brightnessctl set 2%-"))
 
 ---- Advanced and Cool
 
@@ -224,20 +224,6 @@ hl.device({
 	name = "logitech-pro-x-1",
 	accel_profile = "flat",
 	sensitivity = -0.3,
-})
-
--- Generic vertical mouse at work
-hl.device({
-	name = "wireless-dongle",
-	accel_profile = "flat",
-	sensitivity = -0.5,
-})
-
--- University laptop touchpad
-hl.device({
-	name = "elan0773:00-04f3:3244-touchpad",
-	accel_profile = "adaptive",
-	sensitivity = 0.3,
 })
 
 -- t480 touchpad
@@ -259,7 +245,6 @@ hl.on("hyprland.start", function()
 	hl.exec_cmd("foot --server")
 	hl.exec_cmd("fnott")
 	hl.exec_cmd("transmission-daemon")
-	hl.exec_cmd("syncthing --no-browser")
 	hl.exec_cmd("wlsunset -S 6:00 -s 21:00 -t 4000 -d 900")
 	hl.exec_cmd("easyeffects --gapplication-service")
 	hl.exec_cmd("mpd")

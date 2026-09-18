@@ -3,3 +3,5 @@
 	name = leg7
 [init]
 	defaultBranch = main
+[safe]
+	directory = /arch-config
