@@ -1,0 +1,15 @@
+#!/bin/sh
+
+action="$(printf "Shutdown\nReboot\nLogout" | fuzzel -d)"
+
+case "$action" in
+	Shutdown)
+		hyprshutdown -t 'Shutting down...' --post-cmd 'shutdown -P 0'
+		;;
+	Reboot)
+		hyprshutdown -t 'Restarting...' --post-cmd 'reboot'
+		;;
+	Logout)
+		hyprshutdown -t 'Logging out...' --post-cmd 'loginctl terminate-session'
+		;;
+esac

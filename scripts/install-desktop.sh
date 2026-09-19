@@ -11,7 +11,7 @@ doas pacman -Suq --needed --noconfirm \
 	picard spek easyeffects lsp-plugins \
 	rmpc pulsemixer pamixer playerctl \
 	transmission-cli \
-	hyprland xdg-desktop-portal-gtk xdg-desktop-portal-hyprland hyprsunset hyprpaper hyprlock hypridle hyprpolkitagent hyprpicker \
+	hyprland xdg-desktop-portal-gtk xdg-desktop-portal-hyprland hyprsunset hyprpaper hyprlock hypridle hyprpolkitagent hyprpicker hyprshutdown \
 	foot fnott fuzzel kanshi flameshot \
 	neovide mpv imv signal-desktop qalculate-gtk \
 	zathura zathura-cb zathura-djvu zathura-pdf-mupdf zathura-ps \

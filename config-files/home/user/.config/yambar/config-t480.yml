@@ -328,5 +328,6 @@ bar:
     - label:
         content:
           string:
-            on-click: "wlogout"
-            text: 󰐥
+            on-click: sh -c yambar-exit-prompt
+            text: "󰐥"
+            right-margin: *margin-side
