@@ -52,6 +52,8 @@ hl.config({
 	misc = {
 		vrr = 3, -- Only on for games and videos
 		key_press_enables_dpms = true,
+		disable_hyprland_logo = true,
+		disable_splash_rendering = true,
 	},
 
 	render = {
@@ -237,14 +239,12 @@ hl.device({
 --- Expanding Functionality
 
 hl.on("hyprland.start", function()
-	-- One time
 	hl.exec_cmd("dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP")
-	hl.exec_cmd("kanshi")
-	-- Daemons
 	hl.exec_cmd("hyprpaper")
 	hl.exec_cmd("hyprsunset")
 	hl.exec_cmd("hypridle")
 	hl.exec_cmd("systemctl --user start hyprpolkitagent")
+	hl.exec_cmd("kanshi")
 	hl.exec_cmd("yambar-reload")
 	hl.exec_cmd("foot --server")
 	hl.exec_cmd("fnott")
