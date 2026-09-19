@@ -30,10 +30,6 @@ if status is-login
 
 	# Don't care about this dir
 	set -gx XDG_PUBLICSHARE_DIR ""
-
-	if test (tty) = "/dev/tty1"
-		dbus-run-session start-hyprland
-	end
 end
 
 function fzf-cd

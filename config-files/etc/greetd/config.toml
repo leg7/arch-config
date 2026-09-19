@@ -1,0 +1,10 @@
+[terminal]
+vt = 1
+
+[initial_session]
+command = "fish --login --command 'dbus-run-session start-hyprland'"
+user = "user"
+
+[default_session]
+command = "agreety --cmd 'fish -l'"
+user = "user"

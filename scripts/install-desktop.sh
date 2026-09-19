@@ -4,7 +4,7 @@
 
 doas pacman -Suq --needed --noconfirm \
 	bluez bluez-utils bluetui \
-	fish dash starship brightnessctl \
+	fish dash greetd starship brightnessctl \
 	cargo go gopls clang make jq odin \
 	ripgrep \
 	pipewire pipewire-audio pipewire-alsa pipewire-pulse rtkit wireplumber pipewire-docs mpd mpc \
@@ -43,7 +43,7 @@ touch "$XDG_CACHE_HOME"/mpd/mpd.db
 # Enable system services
 
 doas systemctl --machine user@.host --user enable --now pipewire pipewire-pulse wireplumber
-doas systemctl enable --now bluetooth lactd mullvad-daemon
+doas systemctl enable --now bluetooth lactd mullvad-daemon greetd
 
 if test "$(hostname)" = "t480"; then
 	doas systemctl enable --now tlp
